@@ -8,7 +8,7 @@ const Post = ({ userName, caption, imageUrl }) => {
         <WrapItem>
           <Avatar
             size="sm"
-            name="Christian Nwamba"
+            name={userName}
             src="https://bit.ly/broken-link"
             className="text-white bg-gray-50"
             bg="gray"

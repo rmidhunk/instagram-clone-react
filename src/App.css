@@ -3,17 +3,21 @@
 @tailwind utilities;
 
 body {
-  background: #000 !important;
-  color: #fff !important;
+    background: #000 !important;
+    color: #fff !important;
 }
 
 .wrapper {
-  width: 95%;
-  max-width: 1330px;
-  margin: 0 auto;
+    width: 95%;
+    max-width: 1330px;
+    margin: 0 auto;
 }
 
 img {
-  width: 100%;
-  display: block;
+    width: 100%;
+    display: block;
+}
+
+.chakra-modal__content {
+    background: #000 !important;
 }
