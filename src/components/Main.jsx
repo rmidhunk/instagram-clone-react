@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import { db, auth } from "../firebase";
 // import { collection, getDocs } from "firebase/firestore";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import {
     Button,
     FormControl,
@@ -20,6 +20,7 @@ import {
     signOut,
     updateProfile,
 } from "firebase/auth";
+import PostUpload from "./PostUpload";
 
 const Main = () => {
     const [posts, setPosts] = useState([]);
@@ -46,10 +47,14 @@ const Main = () => {
     // }, []);
 
     useEffect(() => {
+        const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
         // the advantage of using onSnapshot is whenever data is added in db, the feed updates
-        const callPosts = onSnapshot(collection(db, "posts"), (snapshot) => {
+        const callPosts = onSnapshot(q, (snapshot) => {
             setPosts(
-                snapshot.docs.map((doc) => ({ id: doc.id, post: doc.data() }))
+                snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    post: doc.data(),
+                }))
             );
         });
 
@@ -208,6 +213,11 @@ const Main = () => {
 
     return (
         <div className="wrapper">
+            {user?.displayName ? (
+                <PostUpload userName={user.displayName} />
+            ) : (
+                <p>Sorry, Please log in to upload images</p>
+            )}
             <InstaModal
                 isOpen={isOpenSignUpModal}
                 onClose={() => setOpenSignUpModal(false)}
@@ -215,7 +225,7 @@ const Main = () => {
                     <div className="w-28">
                         <img
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
-                            alt="Instagram Font Logo White Png - Instagram White Text@pngkey.com"
+                            alt="Instagram Font Logo White"
                         />
                     </div>
                 }
@@ -228,47 +238,49 @@ const Main = () => {
                     <div className="w-28">
                         <img
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
-                            alt="Instagram Font Logo White Png - Instagram White Text@pngkey.com"
+                            alt="Instagram Font Logo White"
                         />
                     </div>
                 }
                 modalContent={signInModalContent()}
             />
-            <div className="w-40">
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
-                    alt="Instagram Font Logo White Png - Instagram White Text@pngkey.com"
-                />
+            <div className="flex justify-between items-center">
+                <div className="w-40">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
+                        alt="Instagram Font Logo White"
+                    />
+                </div>
+                <Stack direction="row" spacing={4} align="center">
+                    {user ? (
+                        <Button
+                            colorScheme="red"
+                            variant="outline"
+                            onClick={() => signOut(auth)}
+                        >
+                            Log Out
+                        </Button>
+                    ) : (
+                        <>
+                            <Button
+                                colorScheme="teal"
+                                variant="solid"
+                                onClick={() => setOpenSignUpModal(true)}
+                            >
+                                Sign Up
+                            </Button>
+                            <Button
+                                colorScheme="teal"
+                                variant="outline"
+                                onClick={() => setOpenSignIn(true)}
+                            >
+                                Log In
+                            </Button>
+                        </>
+                    )}
+                </Stack>
             </div>
 
-            {user ? (
-                <Stack direction="row" spacing={4} align="center">
-                    <Button
-                        colorScheme="red"
-                        variant="outline"
-                        onClick={() => signOut(auth)}
-                    >
-                        Log Out
-                    </Button>
-                </Stack>
-            ) : (
-                <Stack direction="row" spacing={4} align="center">
-                    <Button
-                        colorScheme="teal"
-                        variant="solid"
-                        onClick={() => setOpenSignUpModal(true)}
-                    >
-                        Sign Up
-                    </Button>
-                    <Button
-                        colorScheme="teal"
-                        variant="outline"
-                        onClick={() => setOpenSignIn(true)}
-                    >
-                        Log In
-                    </Button>
-                </Stack>
-            )}
             <h1>Instagram Stories</h1>
             <div>
                 {posts?.map(({ post, id }) => (
