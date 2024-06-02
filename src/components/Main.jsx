@@ -212,87 +212,91 @@ const Main = () => {
     // **********************************************************************
 
     return (
-        <div className="wrapper">
-            {user?.displayName ? (
-                <PostUpload userName={user.displayName} />
-            ) : (
-                <p>Sorry, Please log in to upload images</p>
-            )}
-            <InstaModal
-                isOpen={isOpenSignUpModal}
-                onClose={() => setOpenSignUpModal(false)}
-                modalTitle={
-                    <div className="w-28">
+        <section className="py-6">
+            <div className="wrapper">
+                {user?.displayName ? (
+                    <PostUpload userName={user.displayName} />
+                ) : (
+                    <p>Sorry, Please log in to upload images</p>
+                )}
+                <InstaModal
+                    isOpen={isOpenSignUpModal}
+                    onClose={() => setOpenSignUpModal(false)}
+                    modalTitle={
+                        <div className="w-28">
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
+                                alt="Instagram Font Logo White"
+                            />
+                        </div>
+                    }
+                    modalContent={signUpModalContent()}
+                />
+                <InstaModal
+                    isOpen={openSignIn}
+                    onClose={() => setOpenSignIn(false)}
+                    modalTitle={
+                        <div className="w-28">
+                            <img
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
+                                alt="Instagram Font Logo White"
+                            />
+                        </div>
+                    }
+                    modalContent={signInModalContent()}
+                />
+                <div className="flex justify-between items-center">
+                    <div className="w-40">
                         <img
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
                             alt="Instagram Font Logo White"
                         />
                     </div>
-                }
-                modalContent={signUpModalContent()}
-            />
-            <InstaModal
-                isOpen={openSignIn}
-                onClose={() => setOpenSignIn(false)}
-                modalTitle={
-                    <div className="w-28">
-                        <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
-                            alt="Instagram Font Logo White"
-                        />
-                    </div>
-                }
-                modalContent={signInModalContent()}
-            />
-            <div className="flex justify-between items-center">
-                <div className="w-40">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3V603wWEsxxQTXxVVVmE2mzDdfNEP-EIZdvXCmmuIMQ&s"
-                        alt="Instagram Font Logo White"
-                    />
-                </div>
-                <Stack direction="row" spacing={4} align="center">
-                    {user ? (
-                        <Button
-                            colorScheme="red"
-                            variant="outline"
-                            onClick={() => signOut(auth)}
-                        >
-                            Log Out
-                        </Button>
-                    ) : (
-                        <>
+                    <Stack direction="row" spacing={4} align="center">
+                        {user ? (
                             <Button
-                                colorScheme="teal"
-                                variant="solid"
-                                onClick={() => setOpenSignUpModal(true)}
-                            >
-                                Sign Up
-                            </Button>
-                            <Button
-                                colorScheme="teal"
+                                colorScheme="red"
                                 variant="outline"
-                                onClick={() => setOpenSignIn(true)}
+                                onClick={() => signOut(auth)}
                             >
-                                Log In
+                                Log Out
                             </Button>
-                        </>
-                    )}
-                </Stack>
-            </div>
+                        ) : (
+                            <>
+                                <Button
+                                    colorScheme="teal"
+                                    variant="solid"
+                                    onClick={() => setOpenSignUpModal(true)}
+                                >
+                                    Sign Up
+                                </Button>
+                                <Button
+                                    colorScheme="teal"
+                                    variant="outline"
+                                    onClick={() => setOpenSignIn(true)}
+                                >
+                                    Log In
+                                </Button>
+                            </>
+                        )}
+                    </Stack>
+                </div>
 
-            <h1>Instagram Stories</h1>
-            <div>
-                {posts?.map(({ post, id }) => (
-                    <Post
-                        userName={post?.username}
-                        caption={post?.caption}
-                        imageUrl={post?.imageUrl}
-                        key={`OII83_${id}`}
-                    />
-                ))}
+                <h1>Instagram Stories</h1>
+                <div>
+                    {posts?.map(({ post, id }) => (
+                        <Post
+                            key={`OII83_${id}`}
+                            postId={id}
+                            user={user}
+                            userName={post?.username}
+                            caption={post?.caption}
+                            imageUrl={post?.imageUrl}
+                        />
+                    ))}
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 

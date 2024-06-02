@@ -72,9 +72,14 @@ const PostUpload = ({ userName }) => {
     };
 
     return (
-        <div>
-            <Progress hasStripe value={progress} colorScheme="green" />
-            <div className="flex items-center">
+        <div className="w-80 flex flex-col items-center gap-2 mx-auto">
+            <Progress
+                hasStripe
+                value={progress}
+                colorScheme="green"
+                className="w-full rounded-md"
+            />
+            <div className="">
                 <Input
                     type="text"
                     size="sm"
@@ -88,17 +93,10 @@ const PostUpload = ({ userName }) => {
                     variant="unflushed"
                     name=""
                     id=""
-                    value={image}
+                    // value={image?.name}
                     onChange={handleChange}
+                    className="mt-2 !p-0"
                 />
-                {/* <input
-                    type="file"
-                    size="sm"
-                    variant="unflushed"
-                    name=""
-                    id=""
-                    onChange={(e) => handleChange(e)}
-                /> */}
             </div>
             <Button colorScheme="blue" onClick={handleUpload}>
                 Upload
