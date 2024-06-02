@@ -212,7 +212,7 @@ const Main = () => {
     // **********************************************************************
 
     return (
-        <section className="py-6">
+        <section className="py-6 max-w-xl mx-auto">
             <div className="wrapper">
                 {user?.displayName ? (
                     <PostUpload userName={user.displayName} />
@@ -283,7 +283,7 @@ const Main = () => {
                 </div>
 
                 <h1>Instagram Stories</h1>
-                <div>
+                <div className="">
                     {posts?.map(({ post, id }) => (
                         <Post
                             key={`OII83_${id}`}

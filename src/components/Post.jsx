@@ -59,7 +59,7 @@ const Post = ({ postId, user, userName, caption, imageUrl }) => {
     };
 
     return (
-        <div className="border-b border-gray-800 py-4">
+        <div className="border-b border-gray-800 py-4 w-4/5 mx-auto">
             <div className="flex items-center gap-2 mb-2">
                 <WrapItem>
                     <Avatar
@@ -73,7 +73,7 @@ const Post = ({ postId, user, userName, caption, imageUrl }) => {
                 </WrapItem>
                 <p className="text-sm">{userName}</p>
             </div>
-            <div className="object-contain border-y-gray-800">
+            <div className="w-96 mx-auto border-y-gray-800">
                 <img
                     src={imageUrl}
                     alt="post_image"
@@ -95,6 +95,7 @@ const Post = ({ postId, user, userName, caption, imageUrl }) => {
                     <Input
                         type="text"
                         className="flex-1"
+                        placeholder={`Add a comment for ${userName}...`}
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                     />
